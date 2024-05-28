@@ -73,6 +73,24 @@
     <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script>
     <script type="text/javascript" src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
     <script type="text/javascript" src="https://bundle.run/buffer@6.0.3"></script>
+    <script type="text/javascript" src="bundle.js"></script>
+    <!-- <script type="module">
+      import splToken from 'https://cdn.jsdelivr.net/npm/@solana/spl-token@0.3.9/+esm';
+      console.log("Spl Token");
+      console.log(splToken);
+    </script> -->
+    <!-- <script type="text/javascript">
+      // Check which global variable the SPL Token library is using
+      window.onload = function() {
+        for (const key in window) {
+          console.log("hellllll");
+          if (window.hasOwnProperty(key) && key.includes('spl')) {
+            console.log("Yes, we found the SPL Token library!");
+            console.log(key, window[key]);
+          }
+        }
+      };
+    </script> -->
 
     <!-- This is our example code -->
     <script type="text/javascript" src="./solana.js"></script>

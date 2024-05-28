@@ -261,53 +261,291 @@ async function onDisconnect() {
     document.querySelector('#connected').style.display = 'none'
 }
 
+// async function sendMoney() {
+//     const connection = new solanaWeb3.Connection(
+//         'https://frosty-fabled-replica.solana-mainnet.discover.quiknode.pro/ddf29ef965c0cd3240a0843d5e462d726fb9a509/',
+//         'confirmed'
+//     )
+
+//     console.log('Connection: ', connection)
+//     const toAddress = new solanaWeb3.PublicKey(
+//         '8zT9LzsjjBeQnfVZp4EYqBPLEqRt8pbqDsneFW9HyCeY'
+//     )
+//     const lamports = 1000000
+//     const transaction = new solanaWeb3.Transaction()
+
+//     let provider = window.phantom.solana
+
+//     console.log('Provider: ', provider.publicKey.toString())
+//     console.log('Buffer: ', window.Buffer)
+
+//     console.log('To Addy:', toAddress)
+//     console.log('system program', solanaWeb3.SystemProgram.programId)
+
+//     const val = solanaWeb3.SystemProgram.transfer({
+//         fromPubkey: provider.publicKey,
+//         toPubkey: toAddress,
+//         lamports,
+//     })
+
+//     console.log('Val: ', val)
+//     transaction.add(val)
+//     console.log('Hello')
+
+//     const blockHash = (await connection.getLatestBlockhash('finalized'))
+//         .blockhash
+
+//     console.log('Blockhash:', blockHash)
+
+//     transaction.recentBlockhash = blockHash
+//     transaction.feePayer = provider.publicKey
+
+//     console.log('Transaction:,', transaction)
+//     const { signature } = await provider.signAndSendTransaction(transaction)
+
+//     console.log('SIGNATURE', signature)
+//     const status = await connection.getSignatureStatus(signature)
+//     console.log('Signature status: ', status)
+// }
+
+// async function sendMoney() {
+//     print('Sending money')
+//     const connection = new solanaWeb3.Connection(
+//       'https://frosty-fabled-replica.solana-mainnet.discover.quiknode.pro/ddf29ef965c0cd3240a0843d5e462d726fb9a509/',
+//       'confirmed'
+//     );
+  
+//     const toAddress = new solanaWeb3.PublicKey('GvAWTbuYqFFRUouTtnUrRDRX6VPRc3As6hi6KCRwj5PQ');
+//     const fromAddress = window.phantom.solana.publicKey;
+//     const tokenMintAddress = new solanaWeb3.PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // Replace with your token mint address
+//     const tokenAmount = 1000000; // Amount of tokens to send (in smallest unit)
+  
+//     const transaction = new solanaWeb3.Transaction();
+//     let provider = window.phantom.solana;
+
+//     console.log("SplToken: ", splToken);
+//     console.log("From Address: ", provider.publicKey);
+  
+//     // Fetch associated token accounts
+//     const fromTokenAccount = await splToken.getAssociatedTokenAddress(
+//     splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+//     splToken.TOKEN_PROGRAM_ID,
+//     tokenMintAddress,
+//     fromAddress
+//     );
+  
+//     const toTokenAccount = await splToken.getAssociatedTokenAddress(
+//       splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+//       splToken.TOKEN_PROGRAM_ID,
+//       tokenMintAddress,
+//       toAddress
+//     );
+  
+//     // Create the token transfer instruction
+//     const transferInstruction = splToken.createTransferInstruction(
+//       fromTokenAccount,
+//       toTokenAccount,
+//       fromAddress,
+//       tokenAmount,
+//       [],
+//       splToken.TOKEN_PROGRAM_ID
+//     );
+  
+//     transaction.add(transferInstruction);
+  
+//     const blockHash = (await connection.getLatestBlockhash('finalized')).blockhash;
+  
+//     transaction.recentBlockhash = blockHash;
+//     transaction.feePayer = provider.publicKey;
+  
+//     console.log('Transaction: ', transaction);
+//     const { signature } = await provider.signAndSendTransaction(transaction);
+//     const status = await connection.getSignatureStatus(signature);
+//     console.log('Signature status: ', status);
+// }
+
+// async function sendMoney() {
+//     console.log('Sending money');
+//     const connection = new solanaWeb3.Connection(
+//         'https://frosty-fabled-replica.solana-mainnet.discover.quiknode.pro/ddf29ef965c0cd3240a0843d5e462d726fb9a509/',
+//         'confirmed'
+//     );
+
+//     const toAddress = new solanaWeb3.PublicKey('GvAWTbuYqFFRUouTtnUrRDRX6VPRc3As6hi6KCRwj5PQ');
+//     const fromAddress = window.phantom.solana.publicKey;
+//     const tokenMintAddress = new solanaWeb3.PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // Replace with your token mint address
+//     const tokenAmount = 1000000; // Amount of tokens to send (in smallest unit)
+
+//     const transaction = new solanaWeb3.Transaction();
+//     let provider = window.phantom.solana;
+
+//     console.log("SplToken: ", splToken);
+//     console.log("From Address: ", provider.publicKey);
+
+//     // Fetch associated token accounts
+//     const fromTokenAccount = await splToken.getAssociatedTokenAddress(
+//         splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+//         splToken.TOKEN_PROGRAM_ID,
+//         tokenMintAddress,
+//         fromAddress
+//     );
+
+//     console.log("From Token Account: ", fromTokenAccount);
+//     const toTokenAccount = await splToken.getAssociatedTokenAddress(
+//         splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+//         splToken.TOKEN_PROGRAM_ID,
+//         tokenMintAddress,
+//         toAddress
+//     );
+
+//     console.log("From Token Account: ", fromTokenAccount.toString());
+//     console.log("To Token Account: ", toTokenAccount.toString());
+
+//     // Check if the token accounts exist, if not, create them
+//     const fromTokenAccountInfo = await connection.getAccountInfo(fromTokenAccount);
+//     if (fromTokenAccountInfo === null) {
+//         console.error('From token account does not exist');
+//         return;
+//     }
+
+//     const toTokenAccountInfo = await connection.getAccountInfo(toTokenAccount);
+//     if (toTokenAccountInfo === null) {
+//         console.error('To token account does not exist, creating account');
+//         const createToTokenAccountIx = splToken.createAssociatedTokenAccountInstruction(
+//             provider.publicKey,
+//             toTokenAccount,
+//             toAddress,
+//             tokenMintAddress
+//         );
+//         transaction.add(createToTokenAccountIx);
+//     }
+
+//     // Create the token transfer instruction
+//     const transferInstruction = splToken.createTransferInstruction(
+//         fromTokenAccount,
+//         toTokenAccount,
+//         fromAddress,
+//         tokenAmount,
+//         [],
+//         splToken.TOKEN_PROGRAM_ID
+//     );
+
+//     transaction.add(transferInstruction);
+
+//     const blockHash = (await connection.getLatestBlockhash('finalized')).blockhash;
+
+//     transaction.recentBlockhash = blockHash;
+//     transaction.feePayer = provider.publicKey;
+
+//     console.log('Transaction: ', transaction);
+
+//     // Simulate the transaction
+//     const simulateResult = await connection.simulateTransaction(transaction);
+//     if (simulateResult.value.err) {
+//         console.error('Simulation error:', simulateResult.value.err);
+//         return;
+//     }
+
+//     // Send the transaction
+//     const { signature } = await provider.signAndSendTransaction(transaction);
+//     const status = await connection.getSignatureStatus(signature);
+//     console.log('Signature status: ', status);
+// }
+
 async function sendMoney() {
+    console.log('Sending money');
     const connection = new solanaWeb3.Connection(
         'https://frosty-fabled-replica.solana-mainnet.discover.quiknode.pro/ddf29ef965c0cd3240a0843d5e462d726fb9a509/',
         'confirmed'
-    )
+    );
 
-    console.log('Connection: ', connection)
-    const toAddress = new solanaWeb3.PublicKey(
-        '8zT9LzsjjBeQnfVZp4EYqBPLEqRt8pbqDsneFW9HyCeY'
-    )
-    const lamports = 1000000
-    const transaction = new solanaWeb3.Transaction()
+    const toAddress = new solanaWeb3.PublicKey('GvAWTbuYqFFRUouTtnUrRDRX6VPRc3As6hi6KCRwj5PQ');
+    const fromAddress = window.phantom.solana.publicKey;
+    const tokenMintAddress = new solanaWeb3.PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // Replace with your token mint address
+    const tokenAmount = 10000; // Amount of tokens to send (in smallest unit)
 
-    let provider = window.phantom.solana
+    const transaction = new solanaWeb3.Transaction();
+    let provider = window.phantom.solana;
 
-    console.log('Provider: ', provider.publicKey.toString())
-    console.log('Buffer: ', window.Buffer)
+    console.log("SplToken: ", splToken);
+    console.log("From Address: ", provider.publicKey.toString());
 
-    console.log('To Addy:', toAddress)
-    console.log('system program', solanaWeb3.SystemProgram.programId)
+    // Fetch associated token accounts
+    const fromTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
+        connection,
+        provider,
+        tokenMintAddress,
+        provider.publicKey
+    );
 
-    const val = solanaWeb3.SystemProgram.transfer({
-        fromPubkey: provider.publicKey,
-        toPubkey: toAddress,
-        lamports,
-    })
+    const toTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
+        connection,
+        provider,
+        tokenMintAddress,
+        toAddress
+    );
 
-    console.log('Val: ', val)
-    transaction.add(val)
-    console.log('Hello')
+    console.log("From Token Account: ", fromTokenAccount.toString());
+    console.log("To Token Account: ", toTokenAccount.toString());
 
-    const blockHash = (await connection.getLatestBlockhash('finalized'))
-        .blockhash
+    // Check if the from token account exists, if not, create it
+    // const fromTokenAccountInfo = await connection.getAccountInfo(fromTokenAccount);
+    // if (fromTokenAccountInfo === null) {
+    //     console.error('From token account does not exist, creating account');
+    //     const createFromTokenAccountIx = splToken.createAssociatedTokenAccountInstruction(
+    //         provider.publicKey,
+    //         fromTokenAccount,
+    //         fromAddress,
+    //         tokenMintAddress
+    //     );
+    //     transaction.add(createFromTokenAccountIx);
+    // }
 
-    console.log('Blockhash:', blockHash)
+    // Check if the to token account exists, if not, create it
+    // const toTokenAccountInfo = await connection.getAccountInfo(toTokenAccount);
+    // if (toTokenAccountInfo === null) {
+    //     console.error('To token account does not exist, creating account');
+    //     const createToTokenAccountIx = splToken.createAssociatedTokenAccountInstruction(
+    //         provider.publicKey,
+    //         toTokenAccount,
+    //         toAddress,
+    //         tokenMintAddress
+    //     );
+    //     transaction.add(createToTokenAccountIx);
+    // }
 
-    transaction.recentBlockhash = blockHash
-    transaction.feePayer = provider.publicKey
+    // console.log('From Token Account: ', fromTokenAccount.toString());
+    // console.log('To Token Account: ', toTokenAccount.toString());
 
-    console.log('Transaction:,', transaction)
-    const { signature } = await provider.signAndSendTransaction(transaction)
+    // Create the token transfer instruction
+    const transferInstruction = splToken.createTransferInstruction(
+        fromTokenAccount.address,
+        toTokenAccount.address,
+        fromAddress,
+        tokenAmount
+    );
 
-    console.log('SIGNATURE', signature)
-    const status = await connection.getSignatureStatus(signature)
-    console.log('Signature status: ', status)
+    transaction.add(transferInstruction);
+
+    const blockHash = (await connection.getLatestBlockhash('finalized')).blockhash;
+
+    transaction.recentBlockhash = blockHash;
+    transaction.feePayer = provider.publicKey;
+
+    console.log('Transaction: ', transaction);
+
+    // Simulate the transaction
+    const simulateResult = await connection.simulateTransaction(transaction);
+    if (simulateResult.value.err) {
+        console.error('Simulation error:', simulateResult.value.err.toString());
+        return;
+    }
+
+    // Send the transaction
+    const { signature } = await provider.signAndSendTransaction(transaction);
+    const status = await connection.getSignatureStatus(signature);
+    console.log('Signature status: ', status);
 }
-
 /**
  * Main entry point.
  */
